@@ -2,6 +2,14 @@
 
 Use this library to set system wide keybindings for your code to respond to.
 
+## Installation
+
+```
+pip install global-hotkeys -U
+```
+
+## Example usage
+
 ```python
 from global_hotkeys import *
 
@@ -40,6 +48,8 @@ while is_alive:
     time.sleep(0.1)
 ```
 
+## Additional functionality
+
 You may also add/remove keybindings one at a time, in bulk, or completely clear them all out (which also stops the hotkey listener thread).
 
 ```python
@@ -67,7 +77,7 @@ remove_hotkeys(bindings)
 clear_hotkeys()
 ```
 
-Here is a list of the available keys:
+## List of the available keys
 
 ```
 backspace
@@ -145,7 +155,7 @@ numpad_8
 numpad_9
 multiply_key
 add_key
-separator_key':0x6C, # '|' also known as the 'pipe'
+separator_key  <-- '|' also known as the 'pipe'
 |
 subtract_key
 decimal_key
