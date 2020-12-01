@@ -18,6 +18,7 @@ import time
 # Flag to indicate the program whether should continue running.
 is_alive = True
 
+# Our keybinding event handlers.
 def print_hello():
     print("Hello")
 
@@ -30,6 +31,7 @@ def exit_application():
     is_alive = False
 
 # Declare some key bindings.
+# These take the format of [<key list>, <keydown handler callback>, <keyup handler callback>]
 bindings = [
     [["control", "shift", "7"], None, print_hello],
     [["control", "shift", "8"], None, print_world],
