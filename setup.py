@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
  
 classifiers = [
-  'Development Status :: 5 - Production/Stable',
+  'Development Status :: 4 - Beta',
   'Intended Audience :: Developers',
   'Operating System :: Microsoft :: Windows',
   'License :: OSI Approved :: MIT License',
@@ -10,7 +10,7 @@ classifiers = [
 
 setup(
   name='global_hotkeys',
-  version='0.0.3',
+  version='0.0.4',
   description='',
   long_description=open('README.md').read() + '\n\n' + open('CHANGELOG.txt').read(),
   long_description_content_type='text/markdown',
