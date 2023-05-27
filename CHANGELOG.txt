@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+0.0.6 (12/1/2020)
+-----------------
+- Fixed window key detection.
+
+0.0.5 (12/1/2020)
+-----------------
+- Fixed unwanted modifier keys bug. Added pywin32 as dependency.
+
 0.0.4 (12/1/2020)
 -----------------
 - Fixed Development Status: It's now set to Beta.

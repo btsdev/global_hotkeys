@@ -121,7 +121,7 @@ class HotkeyChecker():
             # Exit out if the main thread has terminated.
             if not main_thread().is_alive():
                 break
-            
+
             for id in id_list:
                 hotkey = self.hotkeys[id]
                 press_callback, release_callback, key_state = self.hotkey_actions[id]
@@ -145,6 +145,12 @@ class HotkeyChecker():
                 non_allowed_modifiers = []
                 for key in full_modifier_list:
                     if key not in hotkey:
+                        if((key == "window") and ((_to_virtualkey("left_window") in hotkey) or _to_virtualkey("right_window") in hotkey)):
+                            continue
+                        if(key == _to_virtualkey("left_window")) and ("window" in hotkey):
+                            continue
+                        if(key == _to_virtualkey("right_window")) and ("window" in hotkey):
+                            continue
                         non_allowed_modifiers.append(key)
                 
                 for key in non_allowed_modifiers:

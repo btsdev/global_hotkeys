@@ -19,9 +19,7 @@ def exit_application():
 # Declare some key bindings.
 bindings = [
     [["control", "7"], None, print_hello],
-    [["control", "8"], None, print_world],
-    [["8"], None, print_hello],
-    [["window","0"], None, print_hello],
+    [["window"], None, print_hello],
     [["control", "9"], None, exit_application],
 ]
 
