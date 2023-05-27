@@ -21,7 +21,7 @@ setup(
   classifiers=classifiers,
   keywords='hotkeys,shortcuts',
   packages=find_packages(),
-  install_requires=[], # "some_lib ~= 1.0"
+  install_requires=["pywin32"], # "some_lib ~= 1.0"
   extras_require = {
     "dev": [] # "pytest>=3.7"
   }
