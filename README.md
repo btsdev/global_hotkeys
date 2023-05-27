@@ -95,6 +95,9 @@ escape
 space   <-- a literal space character (' ') can be used as well.
 page_up
 page_down
+left_window  <-- I couldn't get these to work on my keyboard (the microsoft docs say it's for microsoft natural keyboard?)
+right_window <-- I couldn't get these to work on my keyboard (the microsoft docs say it's for microsoft natural keyboard?)
+window       <-- I couldn't get these to work on my keyboard (the microsoft docs say it's for microsoft natural keyboard?)
 end
 home
 left

@@ -18,9 +18,11 @@ def exit_application():
 
 # Declare some key bindings.
 bindings = [
-    [["control", "shift", "7"], None, print_hello],
-    [["control", "shift", "8"], None, print_world],
-    [["control", "shift", "9"], None, exit_application],
+    [["control", "7"], None, print_hello],
+    [["control", "8"], None, print_world],
+    [["8"], None, print_hello],
+    [["window","0"], None, print_hello],
+    [["control", "9"], None, exit_application],
 ]
 
 # Register all of our keybindings

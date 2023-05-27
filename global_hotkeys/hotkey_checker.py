@@ -8,11 +8,21 @@ import win32api
 
 from .keycodes import vk_key_names
 
+
 def _to_virtualkey(key):
     virtual_key = None
     if key.lower() in vk_key_names.keys():
         virtual_key = vk_key_names[key.lower()]
     return virtual_key
+
+full_modifier_list = [
+    _to_virtualkey("control"),
+    _to_virtualkey("shift"),
+    _to_virtualkey("alt"),
+    _to_virtualkey("left_window"),
+    _to_virtualkey("right_window"),
+    _to_virtualkey("window"),
+]
 
 class EngineState:
 
@@ -119,11 +129,37 @@ class HotkeyChecker():
                 # check to see if all keys in the hotkey are pressed.
                 pressed = True
                 for key in hotkey:
-                    specific_key_state = win32api.GetAsyncKeyState(key)
-                    if specific_key_state >= 0:
-                        pressed = False
-                        break
+                    if key == "window":
+                        lwin_key_state = win32api.GetAsyncKeyState(win32con.VK_LWIN)
+                        rwin_key_state = win32api.GetAsyncKeyState(win32con.VK_RWIN)
+                        if (lwin_key_state >= 0) and (rwin_key_state >= 0):
+                            pressed = False
+                            break
+                    else:
+                        specific_key_state = win32api.GetAsyncKeyState(key)
+                        if specific_key_state >= 0:
+                            pressed = False
+                            break
                 
+                # ensure that modifiers not in this hotkey aren't pressed
+                non_allowed_modifiers = []
+                for key in full_modifier_list:
+                    if key not in hotkey:
+                        non_allowed_modifiers.append(key)
+                
+                for key in non_allowed_modifiers:
+                    if key == "window":
+                        lwin_key_state = win32api.GetAsyncKeyState(win32con.VK_LWIN)
+                        rwin_key_state = win32api.GetAsyncKeyState(win32con.VK_RWIN)
+                        if (lwin_key_state < 0) or (rwin_key_state < 0):
+                            pressed = False
+                            break
+                    else:
+                        specific_key_state = win32api.GetAsyncKeyState(key)
+                        if specific_key_state < 0:
+                            pressed = False
+                            break                    
+
                 if pressed:
                     self.hotkey_actions[id][2] = True
                     if not key_state:
