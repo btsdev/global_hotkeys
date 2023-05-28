@@ -30,6 +30,9 @@ def print_foo():
 def print_bar():
     print("Bar")
 
+def print_with_params(params):
+    print(params["test"])
+
 def exit_application():
     global is_alive
     print("exiting")
@@ -41,13 +44,36 @@ def exit_application():
 bindings = [
     ["control + 7, control + 4", None, print_world, True],
     ["control + 5", None, print_hello, False],
+    ["control + 6", None, print_with_params, False, {"test":5}],
+    
+    # We can even use a dict format now for our bindings as well:
+    {
+        "hotkey": "control + 4",
+        "on_press_callback": None,
+        "on_release_callback": print_with_params,
+        "actuate_on_partial_release": False,
+        "callback_params": {"test": "testing"},
+
+    },
+
     ["window + 1", None, print_foo, False],
     ["t,m", None, print_bar, False],
     ["control + Q", None, exit_application, False],
 ]
 
 # Bindings take on the form of:
-#   <binding>, on_press_callback, on_release_callback, actuate_on_partial_release_flag
+#   <binding>, on_press_callback, on_release_callback, actuate_on_partial_release_flag, callback_params
+#
+# *Note that callback_params will be passed to both press and release callback functions
+#
+# Or in explicit dict format:
+# {
+#     "hotkey": <binding>,
+#     "on_press_callback": <press_callback>,
+#     "on_release_callback": <release_callback>,
+#     "actuate_on_partial_release": False | True,
+#     "callback_params": <a variable or expression can go here>)
+# }
 
 # It's useful to have 'actuate_on_partial_release_flag' set to False, 
 # so your modifier keys don't get in the way of any automatic keyboard output you're doing in response.
@@ -76,7 +102,7 @@ It achieves this by pasting in the current date time to any input field after ba
 
 Also, it uses the winsound library's Beep function to emit a low and subtle visual cue to indicate whether you just toggled the global snippets on or off.
 
-## Try setting up and using the Hyperkey to avoid hotkey conflicts with your applications.
+### Try setting up and using the Hyperkey to avoid hotkey conflicts with your applications.
 I personally use the Hyperkey (which is basically Window+Control+Shift+Alt and also known as the 'OfficeKey' on keyboards that have actually have it) to avoid clashing with most applications' own hotkeys, which is normally not available in windows, but it can be setup using [Autohotkey](https://stackoverflow.com/questions/40435980/how-to-emulate-hyper-key-in-windows-10-using-autohotkey) and also applying the [OfficeKeyFix](https://github.com/anthonyheddings/OfficeKeyFix) which you'll need to compile yourself if one is interested. You can read more about the officekey issue on [Super User](https://superuser.com/questions/1455857/how-to-disable-office-key-keyboard-shortcut-opening-office-app). I personally mapped it to my right control key instead of the capslock key; it was just a simple edit to the Autohotkey script. Both of these I placed in my windows startup folder, and then I was all set.
 
 ## Additional functionality

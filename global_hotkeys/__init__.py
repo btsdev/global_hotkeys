@@ -9,12 +9,39 @@ def _syntax_check(binding):
             f"Your hotkey {hotkey_string} should now be specified as \"{valid_hotkey_string}\""
         )
 
-def register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release):
-    _syntax_check(binding)
-    return hotkey_checker.register_hotkey([hotkey.split("+") for hotkey in binding.replace(" ","").split(",")], press_callback, release_callback, actuate_on_partial_release)
+def sanitize_binding(binding_raw):
+    if (isinstance(binding_raw, list)):
+        _binding = binding_raw[0]
+        keydown_function = binding_raw[1]
+        keyup_function = binding_raw[2]
+        actuate_on_partial_release = True
+        if len(binding_raw) > 3:
+            actuate_on_partial_release = binding_raw[3]
+        params = None
+        if len(binding_raw) > 4:
+            params = binding_raw[4]
+        return [_binding, keydown_function, keyup_function, actuate_on_partial_release, params]
+    elif (isinstance(binding_raw, dict)):
+        _binding = binding_raw["hotkey"]
+        keydown_function = binding_raw["on_press_callback"]
+        keyup_function = binding_raw["on_release_callback"]
+        actuate_on_partial_release = True
+        if "actuate_on_partial_release" in binding_raw:
+            actuate_on_partial_release = binding_raw["actuate_on_partial_release"]
+        params = None
+        if "callback_params" in binding_raw:
+            params = binding_raw["callback_params"]
+        return [_binding, keydown_function, keyup_function, actuate_on_partial_release, params]
+    else:
+        binding_raw_str = str(binding_raw)
+        raise Exception(f"Binding {binding_raw_str} is not the correct_type")
 
-def _register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release):
-	return hotkey_checker.register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release)
+def register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release = False, params = None):
+    _syntax_check(binding)
+    return hotkey_checker.register_hotkey([hotkey.split("+") for hotkey in binding.replace(" ","").split(",")], press_callback, release_callback, actuate_on_partial_release, params)
+ 
+def _register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release, params):
+	return hotkey_checker.register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release, params)
 
 def remove_hotkey(binding):
 	return hotkey_checker.remove_hotkey(binding)
@@ -29,10 +56,11 @@ def restart_checking_hotkeys():
 	hotkey_checker.restart_checker()
 
 def register_hotkeys(bindings):
-    for _binding, keydown_function, keyup_function, actuate_on_partial_release in bindings:
+    for binding_raw in bindings:
+        _binding, keydown_function, keyup_function, actuate_on_partial_release, params = sanitize_binding(binding_raw)
         _syntax_check(_binding)
         binding = [hotkey.split("+") for hotkey in _binding.replace(" ","").split(",")]
-        _register_hotkey(binding, keydown_function, keyup_function, actuate_on_partial_release)
+        _register_hotkey(binding, keydown_function, keyup_function, actuate_on_partial_release, params)
 
 def remove_hotkeys(bindings):
     for _binding in bindings:
