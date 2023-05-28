@@ -18,25 +18,38 @@ import time
 # Flag to indicate the program whether should continue running.
 is_alive = True
 
-# Our keybinding event handlers.
 def print_hello():
     print("Hello")
 
 def print_world():
     print("World")
 
+def print_foo():
+    print("Foo")
+
+def print_bar():
+    print("Bar")
+
 def exit_application():
     global is_alive
+    print("exiting")
     stop_checking_hotkeys()
     is_alive = False
 
+
 # Declare some key bindings.
-# These take the format of [<key list>, <keydown handler callback>, <keyup handler callback>]
 bindings = [
-    [["control", "shift", "7"], None, print_hello],
-    [["control", "shift", "8"], None, print_world],
-    [["control", "shift", "9"], None, exit_application],
+    ["control + 7, control + 4", None, print_world, True],
+    ["control + 5", None, print_hello, False],
+    ["window + 1", None, print_foo, False],
+    ["t,m", None, print_bar, False],
+    ["control + Q", None, exit_application, False],
 ]
+
+# Bindings take on the form of <binding>, on_press_callback, on_release_callback, actuate_on_partial_release_flag
+# It's useful to have 'actuate_on_partial_release_flag' set to False, so your modifier keys don't get in the way of any automatic keyboard output you're doing in response.
+
+# Note the actual hotkey syntax. Key combinations are denoted via the '+' character, and additional key chords are separated by commas. Spaces are ignored.
 
 # Register all of our keybindings
 register_hotkeys(bindings)
@@ -50,6 +63,17 @@ while is_alive:
     time.sleep(0.1)
 ```
 
+## Also note that I've included a simple global snippets example using this functionality.
+It's in the `tests` folder if you download this project's source from [GitHub](https://github.com/btsdev/global_hotkeys).
+
+It's the file `global_snippets.py` and it demonstrates toggling on and off global snippets using a hotkey, and using key chords to inject snippets, in this case the current date time. This is a nod to a user who emailed regarding the addition of this functionality.
+
+It achieves this by pasting in the current date time to any input field after backspacing to erase the snippet's chord from the input field (careful where you use it though. For faster input of snippets, I relied on just placing the date string into the clipboard and emulating CTRL+V to paste).
+
+Also, it uses the winsound library's Beep function to emit a low and subtle visual cue to indicate whether you just toggled the global snippets on or off.
+
+`I personally use the Hyperkey (which is basically Window+Control+Shift+Alt) to avoid clashing with most application's own hotkeys, which is normally not available in windows, but it can be setup using [Autohotkey](https://stackoverflow.com/questions/40435980/how-to-emulate-hyper-key-in-windows-10-using-autohotkey) and also applying the [OfficeKeyFix](https://github.com/anthonyheddings/OfficeKeyFix) which you'll need to compile yourself if one is interested. I personally mapped it to my right control key instead of the capslock key; it was just a simple edit to the Autohotkey script. Both of these I placed in my windows startup folder, and then I was all set.`
+
 ## Additional functionality
 
 You may also add/remove keybindings one at a time, in bulk, or completely clear them all out (which also stops the hotkey listener thread).
@@ -58,9 +82,11 @@ You may also add/remove keybindings one at a time, in bulk, or completely clear 
 
 # Just reusing our bindings declaration from above (this is not a complete code example, btw).
 bindings = [
-    [["control", "shift", "7"], None, print_hello],
-    [["control", "shift", "8"], None, print_world],
-    [["control", "shift", "9"], None, exit_application],
+    ["control + 7, control + 4", None, print_world, True],
+    ["control + 5", None, print_hello, False],
+    ["window + 1", None, print_foo, False],
+    ["t,m", None, print_bar, False],
+    ["control + Q", None, exit_application, False],
 ]
 
 # Register a single keybinding (if it's not already registered). Returns True if the key didn't already exist and was added, else False (the binding is already registered - remove it first if you wish to overwrite it with new event handlers).

@@ -11,16 +11,26 @@ def print_hello():
 def print_world():
     print("World")
 
+def print_foo():
+    print("Foo")
+
+def print_bar():
+    print("Bar")
+
 def exit_application():
     global is_alive
+    print("exiting")
     stop_checking_hotkeys()
     is_alive = False
 
+
 # Declare some key bindings.
 bindings = [
-    [["control", "7"], None, print_hello],
-    [["window"], None, print_hello],
-    [["control", "9"], None, exit_application],
+    ["control + 7, control + 4", None, print_world, True],
+    ["control + 5", None, print_hello, False],
+    ["window + 1", None, print_foo, False],
+    ["t,m", None, print_bar, False],
+    ["control + Q", None, exit_application, False],
 ]
 
 # Register all of our keybindings

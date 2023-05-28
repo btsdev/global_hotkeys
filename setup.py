@@ -10,7 +10,7 @@ classifiers = [
 
 setup(
   name='global_hotkeys',
-  version='0.0.6',
+  version='0.1.0',
   description='',
   long_description=open('README.md').read() + '\n\n' + open('CHANGELOG.txt').read(),
   long_description_content_type='text/markdown',
