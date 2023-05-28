@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+0.1.1 (5/28/2023)
+-----------------
+- Added syntax update warning for anyone still using the old hotkey binding syntax. Updated the singular register_hotkey function.
+
 0.1.0 (5/28/2023)
 -----------------
 - Code refactoring. Hotkey formatting is updated. Key chord sequences now supported. Now providing option to actuate release callback either on partial release of the last key chord, or on full release of all keys in the last keychord (though if the windows modifier key is used, unfortunately it still just actuates immediately on partial release).

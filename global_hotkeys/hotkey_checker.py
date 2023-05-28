@@ -70,6 +70,13 @@ class HotkeyChecker():
                 virtual_key = _to_virtualkey(key)
                 # If the key doesn't exist, throw an exception to bring attention to it.
                 if virtual_key == None:
+                    if(isinstance(key, list)):
+                        hotkey_string = str(key)
+                        valid_hotkey_string = " + ".join(key)
+                        raise Exception(
+                            "You've specified the hotkey as a list. The syntax has changed to being specified as a string now.\n"+
+                            f"Your hotkey {hotkey_string} should now be specified as \"{valid_hotkey_string}\""
+                        )
                     raise Exception(
                         "The key [%s] not a valid virtual keystroke." % key)
                     return False
