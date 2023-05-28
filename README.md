@@ -1,4 +1,4 @@
-# Python Global Hotkey Binding manager for Windows
+# Python Global Hotkey Bindings for Windows
 
 Use this library to set system wide keybindings for your code to respond to.
 
@@ -46,10 +46,14 @@ bindings = [
     ["control + Q", None, exit_application, False],
 ]
 
-# Bindings take on the form of <binding>, on_press_callback, on_release_callback, actuate_on_partial_release_flag
-# It's useful to have 'actuate_on_partial_release_flag' set to False, so your modifier keys don't get in the way of any automatic keyboard output you're doing in response.
+# Bindings take on the form of:
+#   <binding>, on_press_callback, on_release_callback, actuate_on_partial_release_flag
 
-# Note the actual hotkey syntax. Key combinations are denoted via the '+' character, and additional key chords are separated by commas. Spaces are ignored.
+# It's useful to have 'actuate_on_partial_release_flag' set to False, 
+# so your modifier keys don't get in the way of any automatic keyboard output you're doing in response.
+
+# Note the actual hotkey syntax. Key combinations are denoted via the '+' character, 
+# and additional key chords are separated by commas. Spaces are ignored.
 
 # Register all of our keybindings
 register_hotkeys(bindings)
@@ -72,7 +76,7 @@ It achieves this by pasting in the current date time to any input field after ba
 
 Also, it uses the winsound library's Beep function to emit a low and subtle visual cue to indicate whether you just toggled the global snippets on or off.
 
-`I personally use the Hyperkey (which is basically Window+Control+Shift+Alt) to avoid clashing with most application's own hotkeys, which is normally not available in windows, but it can be setup using [Autohotkey](https://stackoverflow.com/questions/40435980/how-to-emulate-hyper-key-in-windows-10-using-autohotkey) and also applying the [OfficeKeyFix](https://github.com/anthonyheddings/OfficeKeyFix) which you'll need to compile yourself if one is interested. I personally mapped it to my right control key instead of the capslock key; it was just a simple edit to the Autohotkey script. Both of these I placed in my windows startup folder, and then I was all set.`
+<p style="color: #ce915b;" markdown="1">I personally use the Hyperkey (which is basically Window+Control+Shift+Alt) to avoid clashing with most application's own hotkeys, which is normally not available in windows, but it can be setup using [Autohotkey](https://stackoverflow.com/questions/40435980/how-to-emulate-hyper-key-in-windows-10-using-autohotkey) and also applying the [OfficeKeyFix](https://github.com/anthonyheddings/OfficeKeyFix) which you'll need to compile yourself if one is interested. I personally mapped it to my right control key instead of the capslock key; it was just a simple edit to the Autohotkey script. Both of these I placed in my windows startup folder, and then I was all set.</p>
 
 ## Additional functionality
 
@@ -89,10 +93,14 @@ bindings = [
     ["control + Q", None, exit_application, False],
 ]
 
-# Register a single keybinding (if it's not already registered). Returns True if the key didn't already exist and was added, else False (the binding is already registered - remove it first if you wish to overwrite it with new event handlers).
+# Register a single keybinding (if it's not already registered). 
+# Returns True if the key didn't already exist and was added, 
+# else False (the binding is already registered - remove it first if 
+# you wish to overwrite it with new event handlers).
 register_hotkey(bindings[0])
 
-# Remove a single keybinding (if it exists). Returns True if the key existed and was removed, else False (the binding is already gone).
+# Remove a single keybinding (if it exists). 
+# Returns True if the key existed and was removed, else False (the binding is already gone).
 remove_hotkey(bindings[0])
 
 # Register a list of keybindings.
