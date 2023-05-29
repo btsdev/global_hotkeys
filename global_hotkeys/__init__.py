@@ -9,9 +9,14 @@ def _syntax_check(binding):
             f"Your hotkey {hotkey_string} should now be specified as \"{valid_hotkey_string}\""
         )
 
+def retrofit_old_bindings(binding):
+     if isinstance(binding, list):
+          return " + ".join(binding)
+     return binding
+
 def sanitize_binding(binding_raw):
     if (isinstance(binding_raw, list)):
-        _binding = binding_raw[0]
+        _binding = retrofit_old_bindings(binding_raw[0])
         keydown_function = binding_raw[1]
         keyup_function = binding_raw[2]
         actuate_on_partial_release = True
@@ -22,7 +27,7 @@ def sanitize_binding(binding_raw):
             params = binding_raw[4]
         return [_binding, keydown_function, keyup_function, actuate_on_partial_release, params]
     elif (isinstance(binding_raw, dict)):
-        _binding = binding_raw["hotkey"]
+        _binding = retrofit_old_bindings(binding_raw["hotkey"])
         keydown_function = binding_raw["on_press_callback"]
         keyup_function = binding_raw["on_release_callback"]
         actuate_on_partial_release = True

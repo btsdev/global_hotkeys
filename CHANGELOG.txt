@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+0.1.3 (5/28/2023)
+-----------------
+- Implemented retrofitting for the original hotkey style: e.g. ["control", "alt", "z"]. This is converted automatically to "control + alt + z".
+
 0.1.2 (5/28/2023)
 -----------------
 - Added dict binding format support. Also added support for supplying callback parameters for bindings.
