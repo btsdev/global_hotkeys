@@ -53,7 +53,6 @@ bindings = [
         "on_release_callback": print_with_params,
         "actuate_on_partial_release": False,
         "callback_params": {"test": "testing"},
-
     },
 
     ["window + 1", None, print_foo, False],
