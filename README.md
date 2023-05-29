@@ -168,7 +168,7 @@ down
 select
 print
 execute
-enter": win32con.VK_
+enter
 print_screen
 insert
 delete
