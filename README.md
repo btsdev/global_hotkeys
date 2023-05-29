@@ -153,7 +153,7 @@ alt
 pause
 caps_lock
 escape
-space   <-- a literal space character (' ') can be used as well.
+space
 page_up
 page_down
 left_window
