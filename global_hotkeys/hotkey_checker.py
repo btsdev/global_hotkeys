@@ -236,7 +236,7 @@ class HotkeyChecker():
                             if callback_params != None:
                                 press_callback(callback_params)
                             else:
-                                press_callback(callback_params)
+                                press_callback()
                 else:
                     this_is_the_last_chord = key_state_id == len(hotkey) - 1
                     #self.hotkey_actions[id][2] = False
