@@ -97,7 +97,7 @@ class HotkeyChecker():
         for i in range(0, len(self.hotkey_actions[hotkey_id][2])):
             self.hotkey_actions[hotkey_id][2][i] = 0
 
-    def register_hotkey(self, binding, press_callback, release_callback, actuate_on_partial_release, callback_params):
+    def register_hotkey(self, binding, press_callback, release_callback, actuate_on_partial_release, press_callback_params, release_callback_params):
         self._is_valid_binding(binding)
         
         self.hotkey_counter += 1
@@ -114,12 +114,7 @@ class HotkeyChecker():
         binding_press_state = [0 for i in range(0, len(binding))]
 
         self.hotkeys[id] = binding
-        self.hotkey_actions[id] = [press_callback, release_callback, binding_press_state, actuate_on_partial_release, callback_params]
-
-        # print(f"id: {id}")
-        # print(str(self.hotkeys))
-        # print(str(self.hotkey_actions))
-        # print("------")
+        self.hotkey_actions[id] = [press_callback, release_callback, binding_press_state, actuate_on_partial_release, press_callback_params, release_callback_params]
 
         return True
     
@@ -195,7 +190,7 @@ class HotkeyChecker():
 
             for id in id_list:
                 hotkey = self.hotkeys[id]
-                press_callback, release_callback, binding_press_state, actuate_on_partial_release, callback_params = self.hotkey_actions[id]
+                press_callback, release_callback, binding_press_state, actuate_on_partial_release, press_callback_params, release_callback_params = self.hotkey_actions[id]
                 key_state_id = self._find_index_of_first_item_not_matching_in_list(binding_press_state, 2)
                 if(key_state_id is None):
                     raise Exception("binding_press_state was not reset after completion!")
@@ -233,8 +228,8 @@ class HotkeyChecker():
                     self.hotkey_actions[id][2][key_state_id] = 1
                     if (key_state != 1) and (this_is_the_last_chord):
                         if press_callback != None:
-                            if callback_params != None:
-                                press_callback(callback_params)
+                            if press_callback_params != None:
+                                press_callback(press_callback_params)
                             else:
                                 press_callback()
                 else:
@@ -245,8 +240,8 @@ class HotkeyChecker():
                             if fully_not_pressed or actuate_on_partial_release:
                                 self._reset_binding_press_state(id)
                                 if release_callback != None:
-                                    if callback_params != None:
-                                        release_callback(callback_params)
+                                    if release_callback_params != None:
+                                        release_callback(release_callback_params)
                                     else:
                                         release_callback()
                         else:

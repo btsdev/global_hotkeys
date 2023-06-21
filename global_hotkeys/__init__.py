@@ -22,10 +22,14 @@ def sanitize_binding(binding_raw):
         actuate_on_partial_release = True
         if len(binding_raw) > 3:
             actuate_on_partial_release = binding_raw[3]
-        params = None
+        press_params = None
+        release_params = None
         if len(binding_raw) > 4:
-            params = binding_raw[4]
-        return [_binding, keydown_function, keyup_function, actuate_on_partial_release, params]
+            press_params = binding_raw[4]
+            release_params = binding_raw[4]
+        if len(binding_raw) > 5:
+            release_params = binding_raw[5]
+        return [_binding, keydown_function, keyup_function, actuate_on_partial_release, press_params, release_params]
     elif (isinstance(binding_raw, dict)):
         _binding = retrofit_old_bindings(binding_raw["hotkey"])
         keydown_function = binding_raw["on_press_callback"]
@@ -33,20 +37,30 @@ def sanitize_binding(binding_raw):
         actuate_on_partial_release = True
         if "actuate_on_partial_release" in binding_raw:
             actuate_on_partial_release = binding_raw["actuate_on_partial_release"]
-        params = None
+        press_params = None
+        release_params = None
         if "callback_params" in binding_raw:
-            params = binding_raw["callback_params"]
-        return [_binding, keydown_function, keyup_function, actuate_on_partial_release, params]
+            press_params = binding_raw["callback_params"]
+            release_params = binding_raw["callback_params"]
+        if "press_callback_params" in binding_raw:
+            press_params = binding_raw["press_callback_params"]
+        if "release_callback_params" in binding_raw:
+            release_params = binding_raw["release_callback_params"]
+        return [_binding, keydown_function, keyup_function, actuate_on_partial_release, press_params, release_params]
     else:
         binding_raw_str = str(binding_raw)
         raise Exception(f"Binding {binding_raw_str} is not the correct_type")
 
-def register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release = False, params = None):
+def register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release = False, press_params = None, release_params = 0):
     _syntax_check(binding)
-    return hotkey_checker.register_hotkey([hotkey.split("+") for hotkey in binding.replace(" ","").split(",")], press_callback, release_callback, actuate_on_partial_release, params)
+    press__params = press_params
+    release__params = press_params
+    if release_params != 0:
+        release__params = release_params
+    return hotkey_checker.register_hotkey([hotkey.split("+") for hotkey in binding.replace(" ","").split(",")], press_callback, release_callback, actuate_on_partial_release, press__params, release__params)
  
-def _register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release, params):
-	return hotkey_checker.register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release, params)
+def _register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release, press_params, release_params):
+	return hotkey_checker.register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release, press_params, release_params)
 
 def remove_hotkey(binding):
 	return hotkey_checker.remove_hotkey(binding)
@@ -62,10 +76,10 @@ def restart_checking_hotkeys():
 
 def register_hotkeys(bindings):
     for binding_raw in bindings:
-        _binding, keydown_function, keyup_function, actuate_on_partial_release, params = sanitize_binding(binding_raw)
+        _binding, keydown_function, keyup_function, actuate_on_partial_release, press_params, release_params = sanitize_binding(binding_raw)
         _syntax_check(_binding)
         binding = [hotkey.split("+") for hotkey in _binding.replace(" ","").split(",")]
-        _register_hotkey(binding, keydown_function, keyup_function, actuate_on_partial_release, params)
+        _register_hotkey(binding, keydown_function, keyup_function, actuate_on_partial_release, press_params, release_params)
 
 def remove_hotkeys(bindings):
     for _binding in bindings:

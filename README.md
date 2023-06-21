@@ -15,7 +15,7 @@ from global_hotkeys import *
 
 import time
 
-# Flag to indicate the program whether should continue running.
+# Flag to indicate whether the program should continue running.
 is_alive = True
 
 def print_hello():
@@ -33,6 +33,12 @@ def print_bar():
 def print_with_params(params):
     print(params["test"])
 
+def press_with_params(params):
+    print(params["press_param"])
+
+def release_with_params(params):
+    print(params["release_param"])
+
 def exit_application():
     global is_alive
     print("exiting")
@@ -45,14 +51,25 @@ bindings = [
     ["control + 7, control + 4", None, print_world, True],
     ["control + 5", None, print_hello, False],
     ["control + 6", None, print_with_params, False, {"test":5}],
-    
-    # We can even use a dict format now for our bindings as well:
+    ["control + 8", press_with_params, release_with_params, False, {"press_param":"pressed!"}, {"release_param": "released!"}],
+    # dict style
     {
         "hotkey": "control + 4",
         "on_press_callback": None,
         "on_release_callback": print_with_params,
         "actuate_on_partial_release": False,
         "callback_params": {"test": "testing"},
+
+    },
+    # dict style with differentiating params for press and release callbacks
+    {
+        "hotkey": "control + 9",
+        "on_press_callback": press_with_params,
+        "on_release_callback": release_with_params,
+        "actuate_on_partial_release": False,
+        "press_callback_params": {"press_param":"ctrl+9 pressed!"},
+        "release_callback_params": {"release_param": "ctrl+9 released!"},
+
     },
 
     ["window + 1", None, print_foo, False],
@@ -71,7 +88,9 @@ bindings = [
 #     "on_press_callback": <press_callback>,
 #     "on_release_callback": <release_callback>,
 #     "actuate_on_partial_release": False | True,
-#     "callback_params": <a variable or expression can go here>)
+#     "callback_params": <a variable or expression can go here>  <-- This applies to both callbacks.
+#     "press_callback_params": <a variable or expression can go here>
+#     "release_callback_params": <a variable or expression can go here>
 # }
 
 # It's useful to have 'actuate_on_partial_release_flag' set to False, 
