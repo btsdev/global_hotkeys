@@ -51,11 +51,12 @@ def sanitize_binding(binding_raw):
         binding_raw_str = str(binding_raw)
         raise Exception(f"Binding {binding_raw_str} is not the correct_type")
 
-def register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release = False, press_params = None, release_params = 0):
+def register_hotkey(binding, press_callback, release_callback, actuate_on_partial_release = False, press_params = None, release_params = "0e7ef7c6-d3dc-4947-9d7c-5a8f7eb3e1e9"):
     _syntax_check(binding)
     press__params = press_params
     release__params = press_params
-    if release_params != 0:
+    # Using a UUID here as a workaround to differentiate from None being passed.
+    if release_params != "0e7ef7c6-d3dc-4947-9d7c-5a8f7eb3e1e9":
         release__params = release_params
     return hotkey_checker.register_hotkey([hotkey.split("+") for hotkey in binding.replace(" ","").split(",")], press_callback, release_callback, actuate_on_partial_release, press__params, release__params)
  
