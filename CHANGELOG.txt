@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+0.1.5 (6/21/2023)
+-----------------
+- Minor fix to the register_hotkey function.
+
+0.1.4 (6/21/2023)
+-----------------
+- Added optional press and release callback parameter differentiation. Merged fix for press callback function.
+
 0.1.3 (5/28/2023)
 -----------------
 - Implemented retrofitting for the original hotkey style: e.g. ["control", "alt", "z"]. This is converted automatically to "control + alt + z".
