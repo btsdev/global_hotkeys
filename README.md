@@ -51,7 +51,14 @@ bindings = [
     ["control + 7, control + 4", None, print_world, True],
     ["control + 5", None, print_hello, False],
     ["control + 6", None, print_with_params, False, {"test":5}],
-    ["control + 8", press_with_params, release_with_params, False, {"press_param":"pressed!"}, {"release_param": "released!"}],
+    [
+        "control + 8", 
+        press_with_params, 
+        release_with_params, 
+        False, 
+        {"press_param":"pressed!"}, 
+        {"release_param": "released!"}
+    ],
     # dict style
     {
         "hotkey": "control + 4",
