@@ -118,6 +118,31 @@ while is_alive:
     time.sleep(0.1)
 ```
 
+## Explanation of the binding structure
+
+Let's go in more details on how the binding is structured, You have two options either to declare the binding explicitly like this within curly brackets:
+```
+# {
+#     "hotkey": <binding>,
+#     "on_press_callback": <press_callback>,
+#     "on_release_callback": <release_callback>,
+#     "actuate_on_partial_release": False | True,
+#     "callback_params": 1ms": <a variable or expression can go here>
+#     "release_callback_params": <a variable or expression can go here>
+# }
+```
+
+Or implicitly by the position of the parameter:
+```
+["hotkey", on_press_callback, on_release_callback, actuate_on_partial_release,press_callback_params,release_callback_params]
+```
+- **hotkey:** A string representing the key combination that triggers the callbacks, such as "control + 7, control + 4".
+- **on_press_callback:** The function to be called when the hotkey is pressed. Can be None or a function reference.
+- **on_release_callback:** The function to be called when the hotkey is released. Can be None or a function reference.
+- **actuate_on_partial_release:** A boolean indicating whether the release callback should be triggered on a partial release of the key combination.
+- **callback_params:** Parameters to be passed to both the press and release callbacks. This should be a dictionary.
+- **press_callback_params, release_callback_params:** Parameters specifically for the press,release callbacks. This should be a dictionary (key-value pairs Like in this example ```"press_callback_params": {"press_param":"ctrl+9 pressed!"}```) .
+
 ## Also note that I've included a simple global snippets example using this functionality.
 It's in the `tests` folder if you download this project's source from [GitHub](https://github.com/btsdev/global_hotkeys).
 
