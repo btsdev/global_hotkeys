@@ -49,7 +49,8 @@ def exit_application():
 # Declare some key bindings.
 bindings = [
     ["control + 7, control + 4", None, print_world, True],
-    ["control + 5", None, print_hello, False],
+    # You can use direct keycodes as well (useful for non-US keyboard layouts):
+    ["control + 0x35", None, print_hello, False], # 0x35 is the keycode for the '5' key
     ["control + 6", None, print_with_params, False, {"test":5}],
     [
         "control + 8", 
@@ -142,6 +143,34 @@ Or implicitly by the position of the parameter:
 - **actuate_on_partial_release:** A boolean indicating whether the release callback should be triggered on a partial release of the key combination.
 - **callback_params:** Parameters to be passed to both the press and release callbacks. This should be a dictionary.
 - **press_callback_params, release_callback_params:** Parameters specifically for the press,release callbacks. This should be a dictionary (key-value pairs Like in this example ```"press_callback_params": {"press_param":"ctrl+9 pressed!"}```) .
+
+## If you are on a non-US keyboard layout...
+You may need to manually figure out the keycodes for the keys you want to bind to, and use those keycodes directly instead of the keynames in your bindings. I've included a useful utility for doing so. 
+
+Just open an interactive shell, and import my keycode_checker module to begin figuring out what your desired keys' keycodes are.
+```python
+>>> from global_hotkeys import keycode_checker
+```
+You'll see the `Press any key (Ctrl+C to exit)` prompt and can begin pressing keys until you've gathered your desired keycodes:
+```
+Key pressed: a
+VK Code: 0x1E
+Key pressed: b
+VK Code: 0x30
+```
+
+And in your code that's actually setting up keybindings maybe you'd use something like:
+```python
+# Assume our previous example setup code from above
+bindings = [
+    ["control + 0x1E", None, print_hello, False],
+    # whatever other bindings...
+]
+```
+
+That said, if your modifier keys' keycodes (e.g. for control, shift, alt) are different than what's listed in [keycodes.py](https://github.com/btsdev/global_hotkeys/blob/master/global_hotkeys/keycodes.py), you'll likely need to just fork this project and modify the source to make things work. CD into your forked copy of the repos and use `pip install -e ./` to apply your changes as you experiment and use your forked version of the library instead. Certainly not a perfect solution, admittedly...
+
+As the code needs to differentiate between modifier keys and non-modifier keys, some further update may be necessary to allow for changing/specifying modifier keycodes as well for non-US keyboard layouts.
 
 ## Also note that I've included a simple global snippets example using this functionality.
 It's in the `tests` folder if you download this project's source from [GitHub](https://github.com/btsdev/global_hotkeys).

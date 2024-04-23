@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+0.1.7 (4/23/2024)
+-----------------
+- Support added for specifying keycodes directly inside of keybindings.
+
 0.1.6 (6/21/2023)
 -----------------
 - Changelog updated.

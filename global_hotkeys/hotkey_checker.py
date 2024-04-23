@@ -5,14 +5,39 @@ import ctypes
 from ctypes import wintypes
 import win32con
 import win32api
+import re
 
 from .keycodes import vk_key_names, vk_non_modifier_codes
+
+def detect_number_type(input_str):
+    # Regular expression patterns for hex and decimal integers
+    hex_pattern = r'^0x[0-9a-fA-F]+$'
+    decimal_pattern = r'^[0-9]+$'
+
+    # Check if the input string matches hex pattern
+    if re.match(hex_pattern, input_str):
+        return 0  # Hex number
+
+    # Check if the input string matches decimal pattern
+    elif re.match(decimal_pattern, input_str):
+        return 1  # Decimal integer
+
+    # If neither hex nor decimal, consider it as a non-number
+    else:
+        return 2  # Non-number
 
 
 def _to_virtualkey(key):
     virtual_key = None
-    if key.lower() in vk_key_names.keys():
-        virtual_key = vk_key_names[key.lower()]
+    key_lowercase = key.lower()
+    if key_lowercase in vk_key_names.keys():
+        virtual_key = vk_key_names[key_lowercase]
+    else:
+        numtype = detect_number_type(key_lowercase)
+        if(numtype == 0):
+            virtual_key = int(key_lowercase, 16)
+        elif(numtype == 1):
+            virtual_key = int(key_lowercase)
     return virtual_key
 
 full_modifier_list = [

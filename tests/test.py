@@ -36,7 +36,7 @@ def exit_application():
 # Declare some key bindings.
 bindings = [
     ["control + 7, control + 4", None, print_world, True],
-    ["control + 5", None, print_hello, False],
+    ["control + 0x35", None, print_hello, False], # 0x35 is the keycode for the '5' key
     ["control + 6", None, print_with_params, False, {"test":5}],
     ["control + 8", press_with_params, release_with_params, False, {"press_param":"pressed!"}, {"release_param": "released!"}],
     # dict style
